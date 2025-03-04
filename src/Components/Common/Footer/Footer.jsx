@@ -6,9 +6,9 @@ const Footer = () => {
       <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h2 className="text-2xl font-bold text-orange-700">Sports Equipment Store</h2>
+            <h2 className="text-2xl font-bold text-orange-700">Sports Equipment</h2>
             <p className="mt-2 text-white">
-              Your one-stop shop for premium sports equipment.
+              Your one-stop shop for <br /> premium sports equipment.
             </p>
           </div>
           <div>
@@ -18,7 +18,7 @@ const Footer = () => {
             <p className="text-white">019*********54</p>
           </div>
           <div className="">
-            <h3 className="text-lg font-semibold  text-orange-700">Follow Us</h3>
+            <h3 className="text-lg font-semibold text-center  text-orange-700">Follow Us</h3>
             <div className="flex space-x-4 justify-center mt-2">
               <a href="#" className="text-white hover:text-orange-700 text-2xl">
                 <FaFacebook />
