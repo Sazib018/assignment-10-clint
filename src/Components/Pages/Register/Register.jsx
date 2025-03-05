@@ -9,22 +9,20 @@ const Register = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
-        registerUser(data.email, data.password)
+        registerUser(data.email, data.password, data.name, data.photoURL)
             .then((userInfo) => {
-                console.log("User created:", userInfo);
-
-        
+                if (userInfo) {
+                    toast.success("Registration successful!", { autoClose: 3000 });
+                }
             })
             .catch((error) => {
                 if (error.code === "auth/email-already-in-use") {
-                    
+                    toast.error("Email already in use!", { autoClose: 3000 });
                 } else {
-                    console.error("Registration error:", error);
-                   
+                    toast.error("Registration failed!", { autoClose: 3000 });
                 }
             });
     };
-
 
     return (
         <div className="flex items-center justify-center mt-9 min-h-screen ">
