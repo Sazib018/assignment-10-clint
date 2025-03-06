@@ -38,7 +38,7 @@ const Categories = () => {
     }, []);
 
     return (
-        <section ref={sectionRef} className="my-10 px-6">
+        <section ref={sectionRef} className="my-10 mt-16 px-6">
             <h2 className="text-3xl font-bold text-center mb-6"> Sports Categories</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {categories.map((category, index) => (

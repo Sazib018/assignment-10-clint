@@ -3,17 +3,23 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Register = () => {
     const { registerUser } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
-        registerUser(data.email, data.password, data.name, data.photoURL)
-            .then((userInfo) => {
-                if (userInfo) {
-                    toast.success("Registration successful!", { autoClose: 3000 });
-                }
+        registerUser(data.email, data.password)
+            .then(userInfo => {
+                console.log(userInfo);
+                Swal.fire({
+                    icon: "success",
+                    title: "Registration Successful!",
+                    text: "Your account has been created successfully.",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "OK"
+                });
             })
             .catch((error) => {
                 if (error.code === "auth/email-already-in-use") {

@@ -11,14 +11,11 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Email & Password Login
+    const registerUser = (email, pass) => {
+        return createUserWithEmailAndPassword(auth, email, pass)
+    }
     const login = (email, pass) => {
         return signInWithEmailAndPassword(auth, email, pass)
-    }
-
-     // Register User
-     const registerUser= (email, pass) => {
-        return createUserWithEmailAndPassword(auth, email, pass)
     }
 
     // Google Login

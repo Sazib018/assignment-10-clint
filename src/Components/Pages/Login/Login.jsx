@@ -4,6 +4,7 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import { useForm } from "react-hook-form"; 
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Login = () => {
     const { login, loginWithGoogle } = useContext(AuthContext);
@@ -12,9 +13,14 @@ const Login = () => {
     const onSubmit = (data) => {
         login(data.email, data.password)
             .then(userInfo => {
-            })
-            .catch(error => {
-                console.error("Login Error:", error);
+                console.log(userInfo);
+                Swal.fire({
+                    icon: "success",
+                    title: "Login Successful!",
+                    text: "Your account has been login successfully.",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "OK"
+                });
             });
     };
 
