@@ -1,10 +1,10 @@
 import React from 'react';
 import Banner from './Banner/Banner';
-import ProductList from './Product/ProductList';
 import Categories from './Categories/Categories';
 import CustomerReviews from './CustomerReviews/CustomerReviews';
 import BlogSection from './BlogSection/BlogSection';
 import Populer from './Populer/Populer';
+import ProductCard from './Product/ProductCard';
 
 const Home = () => {
     return (
@@ -13,7 +13,7 @@ const Home = () => {
         <Banner></Banner>
       </div>
       <div>
-        <ProductList></ProductList>
+       <ProductCard></ProductCard>
       </div>
       <div>
        <Categories></Categories>
