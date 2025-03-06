@@ -2,12 +2,13 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../Providers/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Register = () => {
     const { registerUser } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
         registerUser(data.email, data.password)
@@ -19,6 +20,9 @@ const Register = () => {
                     text: "Your account has been created successfully.",
                     confirmButtonColor: "#3085d6",
                     confirmButtonText: "OK"
+                })
+                .then(() => {
+                    navigate("/");
                 });
             })
             .catch((error) => {

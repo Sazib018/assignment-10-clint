@@ -3,24 +3,29 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { useForm } from "react-hook-form"; 
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Login = () => {
     const { login, loginWithGoogle } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
 
     const onSubmit = (data) => {
         login(data.email, data.password)
-            .then(userInfo => {
-                console.log(userInfo);
+            .then(() => {
                 Swal.fire({
                     icon: "success",
                     title: "Login Successful!",
-                    text: "Your account has been login successfully.",
+                    text: "Your account has been logged in successfully.",
                     confirmButtonColor: "#3085d6",
                     confirmButtonText: "OK"
+                }).then(() => {
+                    navigate("/");
                 });
+            })
+            .catch((error) => {
+                toast.error("Login failed! Please check your credentials.");
             });
     };
 
@@ -30,7 +35,7 @@ const Login = () => {
             .then(() => {
                 toast.success("Google Login Successful!");
             })
-            .catch((error) => {
+            .catch(() => {
                 toast.error("Google Login Failed!");
             });
     };

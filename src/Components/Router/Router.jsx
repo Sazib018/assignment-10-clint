@@ -9,6 +9,7 @@ import MyEquipmentList from "../Pages/My_Equipment_List/MyEquipmentList";
 import Error from "../Pages/Error/Error";
 import ProductsDetails from "../Pages/ProductsDetails/ProductsDetails";
 import PrivateRoute from "./PrivateRoute";
+import ViewDetails from "../Pages/ViewDetails/ViewDetails";
 
 export const router = createBrowserRouter([
     {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
             {
                 path:"/my-equipment-list",
                 element:<PrivateRoute><MyEquipmentList></MyEquipmentList></PrivateRoute>
+            },
+            {
+                path:"/view_details/:id",
+                element:<PrivateRoute><ViewDetails></ViewDetails></PrivateRoute>
             },
         ]
     },
