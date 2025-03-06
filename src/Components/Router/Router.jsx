@@ -42,7 +42,7 @@ export const router = createBrowserRouter([
             {
                 path:"/product_details/:id",
                 element:<ProductsDetails></ProductsDetails>,
-                loader: ({ params }) => fetch(`http://localhost:3000/sports/${params.id}`)
+                loader: ({ params }) => fetch(`https://assignment-10-server2-navy.vercel.app/sports/${params.id}`)
             },
             {
                 path:"/my-equipment-list",

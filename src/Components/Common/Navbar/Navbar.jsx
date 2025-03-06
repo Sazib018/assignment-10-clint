@@ -5,7 +5,7 @@ import { FiMenu, FiX } from "react-icons/fi";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
-    const { user, logout } = useContext(AuthContext); 
+    const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleLogout = () => {

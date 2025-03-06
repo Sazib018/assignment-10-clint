@@ -6,7 +6,7 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/sports/${id}`)
+        fetch(`https://assignment-10-server2-navy.vercel.app/sports/${id}`)
             .then((res) => res.json())
             .then((data) => setProduct(data))
             .catch((error) => console.error("Error:", error));

@@ -26,9 +26,9 @@ const AddEquipment = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch("http://localhost:3000/sports", {
+        const response = await fetch("https://assignment-10-server2-3mcw4d8qq-sazib018s-projects.vercel.app/sports", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json"},
             body: JSON.stringify(formData),
         });
 

@@ -10,7 +10,7 @@ const ProductCard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3000/sports")
+    fetch("https://assignment-10-server2-navy.vercel.app/sports")
       .then((res) => res.json())
       .then((data) => {
         setSportsData(data);

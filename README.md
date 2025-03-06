@@ -8,6 +8,21 @@ A sports equipment shop in Baraigram, March 6, 2025, would be a retail space spe
 
 # Live Link :()
 
+# Install Npm Pack
+1.React
+2.React-Dom
+3.React-hook-form
+4.React-icon
+5.React-router-dom
+6.react-slick
+7.sweetalert2
+8.swiper
+
+# Plaging
+1.TailwindCss
+2.DausyUI
+3.Globals
+4.Vite
 
 
 

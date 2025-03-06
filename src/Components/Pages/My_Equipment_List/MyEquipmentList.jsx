@@ -9,7 +9,7 @@ const MyEquipmentList = () => {
 
     useEffect(() => {
         // Fetch equipment list for the logged-in user
-        fetch('http://localhost:3000/sports') // Make sure this is the correct API endpoint
+        fetch('https://assignment-10-server2-navy.vercel.app/sports') // Make sure this is the correct API endpoint
             .then(response => response.json())
             .then(data => {
                 console.log("Fetched equipment data:", data); // Debugging log
