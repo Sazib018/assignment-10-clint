@@ -1,11 +1,15 @@
-# React + Vite
+# Sports Equipment Shop
+## Assignment-10
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Description:
 
-Currently, two official plugins are available:
+A sports equipment shop in Baraigram, March 6, 2025, would be a retail space specializing in the sale of sporting goods, equipment, athletic apparel, and related accessories for various sports and activities, catering to the local community's needs.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Live Link :()
+
+
+
+
 
 ## Expanding the ESLint configuration
 
