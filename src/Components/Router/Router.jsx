@@ -8,6 +8,7 @@ import AddEquipment from "../Pages/Add_Equipment/AddEquipment";
 import MyEquipmentList from "../Pages/My_Equipment_List/MyEquipmentList";
 import Error from "../Pages/Error/Error";
 import ProductsDetails from "../Pages/ProductsDetails/ProductsDetails";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -34,7 +35,7 @@ export const router = createBrowserRouter([
             },
             {
                 path:"/add-equipment",
-                element:<AddEquipment></AddEquipment>
+                element:<PrivateRoute><AddEquipment></AddEquipment></PrivateRoute>
             },
             {
                 path:"/product_details/:id",
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
             },
             {
                 path:"/my-equipment-list",
-                element:<MyEquipmentList></MyEquipmentList>
+                element:<PrivateRoute><MyEquipmentList></MyEquipmentList></PrivateRoute>
             },
         ]
     },
