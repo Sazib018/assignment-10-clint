@@ -10,6 +10,7 @@ import Error from "../Pages/Error/Error";
 import ProductsDetails from "../Pages/ProductsDetails/ProductsDetails";
 import PrivateRoute from "./PrivateRoute";
 import ViewDetails from "../Pages/ViewDetails/ViewDetails";
+import UpdateEquipment from "../Pages/UpdateEquipment/UpdateEquipment";
 
 export const router = createBrowserRouter([
     {
@@ -50,6 +51,14 @@ export const router = createBrowserRouter([
             {
                 path:"/view_details/:id",
                 element:<PrivateRoute><ViewDetails></ViewDetails></PrivateRoute>
+            },
+            {
+                path:"/my-equipment-list",
+                element:<PrivateRoute><MyEquipmentList></MyEquipmentList></PrivateRoute>
+            },
+            {
+                path:"/update-equipment/:id",
+                element:<PrivateRoute><UpdateEquipment></UpdateEquipment></PrivateRoute>
             },
         ]
     },
