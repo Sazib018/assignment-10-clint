@@ -11,7 +11,7 @@ const Register = () => {
     const navigate = useNavigate();
 
     const onSubmit = (data) => {
-        registerUser(data.email, data.password)
+        registerUser(data.email, data.password )
             .then(userInfo => {
                 console.log(userInfo);
                 Swal.fire({

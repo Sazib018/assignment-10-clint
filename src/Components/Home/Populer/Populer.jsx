@@ -13,7 +13,7 @@ const Populer = () => {
     ];
       
     return (
-        <div className="bg-gray-100 py-16 px-8 flex flex-col md:flex-row items-center justify-center">
+        <div className="bg-gray-100 max-w-[1250px] mx-auto py-16 px-8 flex flex-col md:flex-row items-center justify-center">
         {/* Equipment List */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 flex-1">
           {sportsEquipment.map((item, index) => (

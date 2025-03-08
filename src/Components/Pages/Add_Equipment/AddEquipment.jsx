@@ -62,7 +62,7 @@ const AddEquipment = () => {
     
             {/** Description */}
             <div className="p-4 shadow-md rounded-lg bg-white border border-orange-200 hover:shadow-orange-400 transition duration-300 col-span-2">
-                <textarea name="description" placeholder="Description" required className="input w-full h-24 resize-none" onChange={handleChange}></textarea>
+                <textarea name="description" placeholder="Description" required className="input w-full h-6 resize-none" onChange={handleChange}></textarea>
             </div>
     
             {/** Price */}

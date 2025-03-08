@@ -18,7 +18,7 @@ const Navbar = () => {
 
     return (
         <nav className="bg-gray-800 rounded-lg text-white shadow">
-            <div className="max-w-[1250px] mx-auto px-5 pt-5 flex justify-between md:justify-around items-center relative pb-4">
+            <div className="max-w-[1450px] mx-auto px-5 pt-5 flex justify-between md:justify-around items-center relative pb-4">
                 <div className="font-bold text-xl">EquiSports</div>
 
                 <button onClick={() => setOpen(!open)} className="md:hidden focus:outline-none text-white">
@@ -38,7 +38,7 @@ const Navbar = () => {
                         <>
                             <div className="relative group">
                                 <img
-                                    src={user.photoURL}
+                                    src={user.image}
                                     alt="Profile"
                                     className="w-10 h-10 rounded-full border-2 border-white cursor-pointer"
                                 />
