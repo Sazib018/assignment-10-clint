@@ -2,7 +2,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-
 const blogData = [
   {
     id: 1,
@@ -53,15 +52,24 @@ const BlogSection = () => {
     <div className="container max-w-[1250px] mx-auto py-10 px-4">
       <h2 className="text-3xl font-bold text-center mb-6">Sports Blog</h2>
       <Swiper
-        slidesPerView={3}
+        slidesPerView={1} 
         spaceBetween={20}
         pagination={{ clickable: true }}
-       
+        breakpoints={{
+          1024: {
+            slidesPerView: 3,  
+          },
+          768: {
+            slidesPerView: 1,
+          },
+          480: {
+            slidesPerView: 1,  
+          },
+        }}
       >
         {blogData.map((blog) => (
           <SwiperSlide key={blog.id}>
-            <div className="bg-orange-50 shadow-md rounded-lg p-4 flex flex-col 
-             items-center h-[400px]">
+            <div className="bg-orange-50 shadow-md rounded-lg p-4 flex flex-col items-center h-[400px]">
               <img
                 src={blog.image}
                 alt={blog.title}

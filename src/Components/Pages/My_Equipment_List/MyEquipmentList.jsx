@@ -1,78 +1,132 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../Providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const MyEquipmentList = () => {
-    const [equipmentList, setEquipmentList] = useState([]);
-    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
+    const [equipments, setEquipments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch equipment list for the logged-in user
-        fetch('https://assignment-10-server2-navy.vercel.app/sports') // Make sure this is the correct API endpoint
-            .then(response => response.json())
-            .then(data => {
-                console.log("Fetched equipment data:", data); // Debugging log
-                setEquipmentList(data);
+        if (!user?.email) return;
+
+        fetch(`http://localhost:3000/sports?userEmail=${user.email}`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Failed to fetch data");
+                }
+                return res.json();
             })
-            .catch(error => {
-                console.error("There was an error fetching the equipment:", error);
-                toast.error("Failed to load equipment.");
+            .then((data) => {
+                setEquipments(data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                setError(err.message);
+                setLoading(false);
             });
-    }, []);
+    }, [user?.email]);
 
-    const handleUpdate = (id) => {
-        navigate(`/update-equipment/${id}`);
-    };
-
+    // Handle Delete
     const handleDelete = (id) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this equipment?");
-        if (confirmDelete) {
-            fetch(`/sports/${id}`, { method: 'DELETE' })
-                .then(() => {
-                    toast.success("Equipment deleted successfully!");
-                    setEquipmentList(equipmentList.filter(item => item._id !== id));
+        Swal.fire({
+            title: "Are you sure Delete This Item?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:3000/sports/${id}`, {
+                    method: "DELETE",
                 })
-                .catch(error => {
-                    console.error("There was an error deleting the equipment:", error);
-                    toast.error("Failed to delete equipment.");
-                });
-        }
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.deletedCount > 0) {
+                            Swal.fire("Deleted!", "Your equipment has been deleted.", "success");
+                            setEquipments(equipments.filter((item) => item._id !== id));
+                        }
+                    })
+                    .catch(() => Swal.fire("Error!", "Something went wrong.", "error"));
+            }
+        });
     };
+
+    // Handle Update
+    const handleUpdate = (id) => {
+        Swal.fire({
+            title: "Update Equipment",
+            html: `
+                <input id="swal-input1" class="swal2-input" placeholder="Item Name">
+                <input id="swal-input2" class="swal2-input" placeholder="Price">
+                <input id="swal-input3" class="swal2-input" placeholder="Stock Status">
+            `,
+            focusConfirm: false,
+            showCancelButton: true,
+            preConfirm: () => {
+                return {
+                    itemName: document.getElementById("swal-input1").value,
+                    price: document.getElementById("swal-input2").value,
+                    stockStatus: document.getElementById("swal-input3").value,
+                };
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:3000/sports/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(result.value),
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.modifiedCount > 0) {
+                            Swal.fire("Updated!", "Your equipment has been updated.", "success");
+                            setEquipments(equipments.map((item) => (item._id === id ? { ...item, ...result.value } : item)));
+                        }
+                    })
+                    .catch(() => Swal.fire("Error!", "Something went wrong.", "error"));
+            }
+        });
+    };
+
+    if (loading) return <p className="text-center text-orange-700 font-semibold">Loading...</p>;
+    if (error) return <p className="text-center text-red-600 font-semibold">{error}</p>;
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-        {equipmentList.length === 0 ? (
-            <p>No equipment found.</p>
-        ) : (
-            equipmentList.map((item) => (
-                <div key={item._id} className="equipment-card p-4 bg-white shadow-lg rounded-lg max-w-[600px] h-[400px] flex flex-col justify-between">
-                    <img src={item.image} alt={item.itemName} className="w-full h-40 object-cover rounded-md" />
-                    <div className="mt-2 flex-grow">
-                        <h3 className="text-lg font-semibold"><span>Item_ Name :</span> {item.itemName}</h3>
-                        <p className="text-sm text-gray-800">
-                        <span>Category_Name :</span> {item.categoryName}</p>
-                        <p className="text-lg font-semibold text-gray-800"><span>Price :</span> {item.price}</p>
-                    </div>
-                    <div className="mt-4 flex justify-center gap-6">
-                        <button 
-                            onClick={() => handleUpdate(item._id)} 
-                            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">
-                            Update
-                        </button>
-                        <button 
-                            onClick={() => handleDelete(item._id)} 
-                            className="bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition duration-300">
-                            Delete
-                        </button>
-                    </div>
+        <div className="max-w-4xl mx-auto p-6 mt-9 bg-white shadow-2xl rounded-lg border border-orange-300">
+            <h2 className="text-3xl font-bold text-center text-orange-700 mb-6">My Equipment List</h2>
+
+            {equipments.length === 0 ? (
+                <p className="text-center text-gray-500">No equipment added yet.</p>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {equipments.map((item) => (
+                        <div key={item._id} className="p-4 border rounded-lg shadow-md">
+                            <img src={item.image} alt={item.itemName} className="w-full h-40 object-cover rounded-lg mb-3" />
+                            <h3 className="text-xl font-bold text-orange-700">{item.itemName}</h3>
+                            <p className="text-sm text-gray-600">{item.description}</p>
+                            <p className="text-sm font-semibold">Price: ${item.price}</p>
+                            <p className="text-sm">Stock: {item.stockStatus}</p>
+                            <div className="flex gap-2 mt-3">
+                                <button 
+                                    onClick={() => handleUpdate(item._id)} 
+                                    className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                                    Update
+                                </button>
+                                <button 
+                                    onClick={() => handleDelete(item._id)} 
+                                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            ))
-        )}
-        <ToastContainer />
-    </div>
-    
-    
+            )}
+        </div>
     );
 };
 
