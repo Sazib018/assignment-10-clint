@@ -33,7 +33,6 @@ const Login = () => {
     const handleGoogleLogin = () => {
         loginWithGoogle()
             .then(() => {
-                toast.success("Google Login Successful!");
             })
             .catch(() => {
                 toast.error("Google Login Failed!");

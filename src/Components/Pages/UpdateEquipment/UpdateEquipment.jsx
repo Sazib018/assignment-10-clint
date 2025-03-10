@@ -10,6 +10,7 @@ const UpdateEquipment = () => {
         description: "",
         price: "",
         stockStatus: "",
+        rating: "",
     });
 
     const { id } = useParams();
@@ -25,11 +26,12 @@ const UpdateEquipment = () => {
             })
             .then((data) => {
                 setEquipment({
-                    itemName: data.itemName || "",  // Ensure value is a string
-                    category: data.category || "",  // Ensure value is a string
-                    description: data.description || "",  // Ensure value is a string
-                    price: data.price || "",  // Ensure value is a string
-                    stockStatus: data.stockStatus || "",  // Ensure value is a string
+                    itemName: data.itemName || "",
+                    category: data.category || "", 
+                    description: data.description || "",
+                    price: data.price || "", 
+                    stockStatus: data.stockStatus || "",
+                    rating: data.rating || "",  
                 });
             })
             .catch((error) => {
@@ -123,6 +125,19 @@ const UpdateEquipment = () => {
                             value={equipment.price || ""}
                             onChange={handleChange}
                             placeholder="Enter price"
+                            className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        />
+                    </div>
+                    <div>
+                        <label className="block font-medium text-gray-700 mb-1">Rating </label>
+                        <input
+                            type="number"
+                            name="rating"
+                            value={equipment.rating || ""}
+                            onChange={handleChange}
+                            min="1"
+                            max="5"
+                            placeholder="Enter rating (1-5)"
                             className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
                         />
                     </div>
