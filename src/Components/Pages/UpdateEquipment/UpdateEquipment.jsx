@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 const UpdateEquipment = () => {
     const [equipment, setEquipment] = useState({
@@ -63,8 +64,15 @@ const UpdateEquipment = () => {
             })
             .then((data) => {
                 if (data.modifiedCount > 0) {
-                    toast.success("Equipment updated successfully!");
-                    navigate("/my-equipment-list");
+                    // Show SweetAlert on success
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Equipment updated successfully!',
+                        icon: 'success',
+                        confirmButtonText: 'Okay'
+                    }).then(() => {
+                        navigate("/my-equipment-list"); // Navigate after the alert is closed
+                    });
                 } else {
                     toast.warning("No changes were made.");
                 }
