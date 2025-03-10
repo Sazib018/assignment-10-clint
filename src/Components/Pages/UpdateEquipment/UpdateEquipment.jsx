@@ -1,33 +1,39 @@
-
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UpdateEquipment = () => {
     const [equipment, setEquipment] = useState({
-        itemName: '',
-        category: '',
-        description: '',
-        price: '',
-        rating: '',
-        customization: '',
-        processingTime: '',
-        stockStatus: '',
-        userEmail: '',
-        userName: '',
+        itemName: "",
+        category: "",
+        description: "",
+        price: "",
+        stockStatus: "",
     });
 
     const { id } = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`/sports/${id}`)
-            .then(response => response.json())
-            .then(data => {
-                setEquipment(data);
+        fetch(`https://assignment-10-server2-navy.vercel.app/sports/${id}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch equipment');
+                }
+                return response.json();
             })
-            .catch(error => {
+            .then((data) => {
+                setEquipment({
+                    itemName: data.itemName || "",  // Ensure value is a string
+                    category: data.category || "",  // Ensure value is a string
+                    description: data.description || "",  // Ensure value is a string
+                    price: data.price || "",  // Ensure value is a string
+                    stockStatus: data.stockStatus || "",  // Ensure value is a string
+                });
+            })
+            .catch((error) => {
+                toast.error(`Error fetching equipment: ${error.message}`);
                 console.error("There was an error fetching the equipment:", error);
             });
     }, [id]);
@@ -40,119 +46,109 @@ const UpdateEquipment = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        fetch(`/sports/${id}`, {
-            method: 'PUT',
+        fetch(`https://assignment-10-server2-navy.vercel.app/sports/${id}`, {
+            method: "PUT",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(equipment),
         })
-            .then(response => {
-                if (response.ok) {
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Failed to update equipment");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.modifiedCount > 0) {
                     toast.success("Equipment updated successfully!");
-                    navigate('/my-equipment-list');
+                    navigate("/my-equipment-list");
                 } else {
-                    toast.error("Failed to update equipment!");
+                    toast.warning("No changes were made.");
                 }
             })
-            .catch(error => {
+            .catch((error) => {
+                toast.error(`Failed to update equipment: ${error.message}`);
                 console.error("There was an error updating the equipment:", error);
             });
     };
 
     return (
-        <div className="p-6 max-w-lg mt-16 mx-auto bg-orange-50 shadow-transparent rounded-lg">
-        <h2 className="text-2xl font-semibold text-center mb-6">Update Equipment</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-                type="text"
-                name="itemName"
-                value={equipment.itemName}
-                onChange={handleChange}
-                placeholder="Item Name"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            <input
-                type="text"
-                name="category"
-                value={equipment.category}
-                onChange={handleChange}
-                placeholder="Category"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            <textarea
-                name="description"
-                value={equipment.description}
-                onChange={handleChange}
-                placeholder="Description"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            <input
-                type="number"
-                name="price"
-                value={equipment.price}
-                onChange={handleChange}
-                placeholder="Price"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            <input
-                type="number"
-                name="rating"
-                value={equipment.rating}
-                onChange={handleChange}
-                placeholder="Rating"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            <input
-                type="text"
-                name="customization"
-                value={equipment.customization}
-                onChange={handleChange}
-                placeholder="Customization"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            <input
-                type="text"
-                name="processingTime"
-                value={equipment.processingTime}
-                onChange={handleChange}
-                placeholder="Processing Time"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            <input
-                type="text"
-                name="stockStatus"
-                value={equipment.stockStatus}
-                onChange={handleChange}
-                placeholder="Stock Status"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            <input
-                type="email"
-                name="userEmail"
-                value={equipment.userEmail}
-                readOnly
-                placeholder="User Email"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm bg-gray-100"
-            />
-            <input
-                type="text"
-                name="userName"
-                value={equipment.userName}
-                readOnly
-                placeholder="User Name"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm bg-gray-100"
-            />
-            <button
-                type="submit"
-                className="w-full py-3 bg-orange-500 text-white rounded-lg shadow-lg hover:bg-orange-600 transition duration-300"
-            >
-                Update Equipment
-            </button>
-        </form>
-        <ToastContainer />
-    </div>
-    
+        <div className="flex justify-center items-center min-h-screen bg-orange-100">
+            <div className="p-8 max-w-md w-full bg-orange-200 shadow-lg rounded-lg">
+                <h2 className="text-2xl font-semibold text-center mb-4">Update Equipment</h2>
+                <hr className="mb-4 border-gray-300" />
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label className="block font-medium text-gray-700 mb-1">Item Name</label>
+                        <input
+                            type="text"
+                            name="itemName"
+                            value={equipment.itemName || ""}
+                            onChange={handleChange}
+                            placeholder="Enter item name"
+                            className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block font-medium text-gray-700 mb-1">Category</label>
+                        <input
+                            type="text"
+                            name="category"
+                            value={equipment.category || ""}
+                            onChange={handleChange}
+                            placeholder="Enter category"
+                            className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block font-medium text-gray-700 mb-1">Description</label>
+                        <textarea
+                            name="description"
+                            value={equipment.description || ""}
+                            onChange={handleChange}
+                            placeholder="Enter description"
+                            className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block font-medium text-gray-700 mb-1">Price</label>
+                        <input
+                            type="number"
+                            name="price"
+                            value={equipment.price || ""}
+                            onChange={handleChange}
+                            placeholder="Enter price"
+                            className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block font-medium text-gray-700 mb-1">Stock Status</label>
+                        <input
+                            type="text"
+                            name="stockStatus"
+                            value={equipment.stockStatus || ""}
+                            onChange={handleChange}
+                            placeholder="Enter stock status"
+                            className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="w-full py-3 bg-orange-600 text-white rounded-lg shadow-lg hover:bg-orange-700 transition">
+                        Update Equipment
+                    </button>
+                </form>
+
+                <ToastContainer />
+            </div>
+        </div>
     );
 };
 

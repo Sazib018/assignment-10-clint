@@ -1,9 +1,11 @@
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const MyEquipmentList = () => {
     const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [equipments, setEquipments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -11,7 +13,7 @@ const MyEquipmentList = () => {
     useEffect(() => {
         if (!user?.email) return;
 
-        fetch(`http://localhost:3000/sports?userEmail=${user.email}`)
+        fetch(`https://assignment-10-server2-navy.vercel.app/sports?userEmail=${user.email}`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error("Failed to fetch data");
@@ -40,7 +42,7 @@ const MyEquipmentList = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/sports/${id}`, {
+                fetch(`https://assignment-10-server2-navy.vercel.app/sports/${id}`, {
                     method: "DELETE",
                 })
                     .then((res) => res.json())
@@ -48,43 +50,6 @@ const MyEquipmentList = () => {
                         if (data.deletedCount > 0) {
                             Swal.fire("Deleted!", "Your equipment has been deleted.", "success");
                             setEquipments(equipments.filter((item) => item._id !== id));
-                        }
-                    })
-                    .catch(() => Swal.fire("Error!", "Something went wrong.", "error"));
-            }
-        });
-    };
-
-    // Handle Update
-    const handleUpdate = (id) => {
-        Swal.fire({
-            title: "Update Equipment",
-            html: `
-                <input id="swal-input1" class="swal2-input" placeholder="Item Name">
-                <input id="swal-input2" class="swal2-input" placeholder="Price">
-                <input id="swal-input3" class="swal2-input" placeholder="Stock Status">
-            `,
-            focusConfirm: false,
-            showCancelButton: true,
-            preConfirm: () => {
-                return {
-                    itemName: document.getElementById("swal-input1").value,
-                    price: document.getElementById("swal-input2").value,
-                    stockStatus: document.getElementById("swal-input3").value,
-                };
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch(`http://localhost:3000/sports/${id}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(result.value),
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                        if (data.modifiedCount > 0) {
-                            Swal.fire("Updated!", "Your equipment has been updated.", "success");
-                            setEquipments(equipments.map((item) => (item._id === id ? { ...item, ...result.value } : item)));
                         }
                     })
                     .catch(() => Swal.fire("Error!", "Something went wrong.", "error"));
@@ -112,7 +77,7 @@ const MyEquipmentList = () => {
                             <p className="text-sm">Stock: {item.stockStatus}</p>
                             <div className="flex gap-2 mt-3">
                                 <button 
-                                    onClick={() => handleUpdate(item._id)} 
+                                    onClick={() => navigate(`/update-equipment/${item._id}`)}
                                     className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
                                     Update
                                 </button>
